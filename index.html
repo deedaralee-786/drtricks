@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DARK SERIES XYLON | HACKER TOOLS</title>
+    <link href="https://fonts.googleapis.com/css?family=Iceberg|Wallpoet|Nunito|Poiret+One|Share+Tech+Mono|Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            background: #0a0a0a;
+            color: #0f0;
+            overflow: auto;
+            position: relative;
+        }
+        
+        /* Terminal-like scanline effect */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0, 255, 0, 0.03) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+            animation: scanline 10s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+        
+        /* Matrix rain effect */
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        
+        header {
+            font-family: 'Orbitron', sans-serif;
+            background: rgba(0, 20, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            font-size: 2.5em;
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+            border-bottom: 1px solid #0f0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            z-index: 2;
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .tool {
+            background: rgba(10, 15, 10, 0.8);
+            border: 1px solid #0f0;
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .tool::before {
+            content: ">";
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            color: #0f0;
+            font-weight: bold;
+        }
+        
+        .tool:hover {
+            transform: translateY(-5px);
+            background: rgba(15, 30, 15, 0.9);
+            box-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
+        }
+        
+        .tool img {
+            width: 100%;
+            height: 140px;
+            border-radius: 2px;
+            border: 1px solid #0f0;
+            filter: grayscale(50%) contrast(120%);
+            transition: all 0.3s ease;
+            object-fit: cover;
+        }
+        
+        .tool:hover img {
+            filter: grayscale(0%) contrast(130%);
+            box-shadow: 0 0 10px #0f0;
+        }
+        
+        .tool a {
+            text-decoration: none;
+            color: #0f0;
+            font-size: 1.1em;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            padding: 5px;
+        }
+        
+        .tool:hover a {
+            color: #fff;
+            text-shadow: 0 0 10px #0f0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            background: rgba(0, 20, 0, 0.8);
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            font-size: 1.2em;
+            z-index: 2;
+            position: relative;
+            border-top: 1px solid #0f0;
+            margin-top: 30px;
+        }
+        
+        footer a {
+            color: #0f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #0f0;
+        }
+        
+        marquee {
+            margin: 20px 0;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            font-size: 1.5em;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 10px;
+            border-top: 1px solid #0f0;
+            border-bottom: 1px solid #0f0;
+            background: rgba(0, 20, 0, 0.5);
+            z-index: 2;
+            position: relative;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+        
+        /* Terminal cursor blink animation */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .tool::after {
+            content: "_";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            color: #0f0;
+            animation: blink 1s infinite;
+        }
+        
+        /* Glitch effect on header */
+        header::before, header::after {
+            content: "DARK SERIES XYLON";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        header::before {
+            animation: glitch-animation 2s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            opacity: 0.8;
+            color: #f0f;
+            text-shadow: 2px 0 #0ff;
+            background: rgba(0, 20, 0, 0.8);
+            z-index: -1;
+        }
+        
+        header::after {
+            animation: glitch-animation 2s infinite reverse;
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+            opacity: 0.8;
+            color: #0ff;
+            text-shadow: -2px 0 #f0f;
+            background: rgba(0, 20, 0, 0.8);
+            z-index: -1;
+        }
+        
+        @keyframes glitch-animation {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .tool {
+                height: 250px;
+            }
+            
+            .tool img {
+                height: 120px;
+            }
+            
+            header {
+                font-size: 2em;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+                padding: 10px;
+            }
+            
+            .tool {
+                height: 200px;
+                padding: 10px;
+            }
+            
+            .tool img {
+                height: 90px;
+            }
+            
+            .tool a {
+                font-size: 0.9em;
+            }
+            
+            header {
+                font-size: 1.7em;
+                padding: 10px;
+            }
+            
+            marquee {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div id="particles-js"></div>
+    <header>DARK SERIES XYLON</header>
+    <marquee behavior="alternate" scrollamount="10">>_ EXPLORE YOUR FAVORITE TOOLS HERE! _<</marquee>
+    <div class="container">
+        
+        <div class="tool">
+            <img src="XYLON/bat.jpg" alt="Batch file">
+            <a href="https://tcs-batch-files.vercel.app/" onclick="openIframe(this)">Batch File</a>
+        </div>
+        
+        <div class="tool">
+            <img src="XYLON/ip.jpg" alt="ipfinder">
+            <a href="https://ip-info-tcs.tiiny.io/" onclick="openIframe(this)">IP Locator</a>
+        </div>
+    <footer>© 2025 TOOL COLLECTION. POWERED BY <a href="https://t.me/ALL_CODE_X" style="color: #0f0; text-decoration: none;">DARK SERIES XYLON</a></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const letters = '01010101010101010101010101010101ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01010101010101010101010101010101';
+        const fontSize = 12;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for(let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 10, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = `${fontSize}px monospace`;
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 33);
+        
+        // Particles.js configuration
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#0f0"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true
+                },
+                "size": {
+                    "value": 2,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#0f0",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out"
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 200,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Open iframe function
+        function openIframe(element) {
+            // Your existing iframe opening logic here
+            event.preventDefault();
+            // Add your implementation
+        }
+        
+        // Resize canvas when window is resized
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+  </html>
